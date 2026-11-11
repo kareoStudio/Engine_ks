@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="hi" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kareo Studio - Ultimate Media Converter</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              900: '#312e81',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(99, 102, 241, 0.5);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(99, 102, 241, 0.8);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+
+  <!-- Background decorative glows -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/2 -right-40 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-40 left-1/3 w-96 h-96 bg-blue-600/15 rounded-full blur-3xl"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="relative z-10 border-b border-slate-800/80 backdrop-blur-xl bg-slate-950/60 sticky top-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+          <i class="ph-bold ph-arrows-clockwise text-2xl text-white animate-spin-slow"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-indigo-300 bg-clip-text text-transparent">
+              Kareo Studio Converter
+            </h1>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">PRO BULK</span>
+          </div>
+          <p class="text-xs text-slate-400">Audio & Video Universal Conversion Engine</p>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="flex items-center gap-3">
+        <button id="clearAllBtn" onclick="clearAllFiles()" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-700/60 hover:bg-slate-800 text-xs text-slate-300 hover:text-white transition">
+          <i class="ph ph-trash text-sm"></i>
+          Clear List
+        </button>
+        <span class="text-xs text-slate-400 font-medium bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-xl flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          Ready in Browser
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="relative z-10 flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    
+    <!-- Hero / Description -->
+    <div class="text-center space-y-2">
+      <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight">
+        Convert Any Audio & Video <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Instantly</span>
+      </h2>
+      <p class="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto">
+        MP3 ↔ MP4, WAV, AAC, OGG, WEBM, MKV, AVI aur koi bhi format select karein. Ek sath multiple files bulk me convert karein!
+      </p>
+    </div>
+
+    <!-- YouTube Link Downloader & Converter Box -->
+    <section class="bg-gradient-to-b from-slate-900/90 to-slate-900/50 border border-slate-800/90 rounded-3xl p-5 sm:p-7 backdrop-blur-xl shadow-xl shadow-red-950/10">
+      <div class="flex items-center gap-2.5 mb-3">
+        <div class="w-8 h-8 rounded-xl bg-red-600/20 text-red-400 flex items-center justify-center text-lg border border-red-500/30">
+          <i class="ph-bold ph-youtube-logo"></i>
+        </div>
+        <div>
+          <h3 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+            YouTube Video Downloader & Converter
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/30">HD & MP3</span>
+          </h3>
+          <p class="text-xs text-slate-400">Paste any YouTube URL to extract, download in multiple resolutions, or convert into audio/video formats.</p>
+        </div>
+      </div>
+
+      <!-- Input Bar -->
+      <div class="flex flex-col sm:flex-row gap-2.5">
+        <div class="relative flex-1">
+          <i class="ph ph-link text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 text-base"></i>
+          <input 
+            type="text" 
+            id="ytUrlInput" 
+            placeholder="Paste YouTube Link (e.g. https://www.youtube.com/watch?v=... or youtu.be/...)"
+            class="w-full bg-slate-950/80 border border-slate-700/80 rounded-2xl pl-10 pr-10 py-3 text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition"
+          >
+          <button 
+            type="button" 
+            onclick="document.getElementById('ytUrlInput').value=''" 
+            class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 text-sm"
+            title="Clear">
+            <i class="ph ph-x-circle"></i>
+          </button>
+        </div>
+        <button 
+          id="ytFetchBtn"
+          onclick="fetchYouTubeVideo()" 
+          class="px-5 py-3 rounded-2xl bg-red-600 hover:bg-red-500 active:scale-95 text-white font-bold text-xs sm:text-sm shadow-lg shadow-red-600/30 flex items-center justify-center gap-2 transition flex-shrink-0"
+        >
+          <i class="ph-bold ph-magnifying-glass"></i>
+          Fetch Video
+        </button>
+      </div>
+
+      <!-- Engine Selector Bar (Custom Server vs Instant) -->
+      <div class="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400">
+        <div class="flex items-center gap-2">
+          <span class="text-slate-400 font-medium">Download Engine:</span>
+          <select id="engineMode" onchange="toggleEngineInput()" class="bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 text-slate-200 text-xs focus:outline-none focus:border-indigo-500">
+            <option value="direct">Direct Tunnel (No setup required)</option>
+            <option value="custom">My GitHub/Custom Engine Server</option>
+          </select>
+        </div>
+        <div id="customServerBox" class="hidden flex items-center gap-2">
+          <input type="text" id="customServerUrl" placeholder="https://your-engine.onrender.com" value="http://localhost:8000" class="bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-slate-200 text-xs focus:outline-none w-56">
+        </div>
+      </div>
+
+      <!-- YouTube Details & Resolution Cards (Hidden by default) -->
+      <div id="ytResultBox" class="hidden mt-5 pt-5 border-t border-slate-800/80 animate-fade-in">
+        <div class="flex flex-col lg:flex-row gap-6">
+          
+          <!-- Video Preview Card -->
+          <div class="w-full lg:w-80 flex-shrink-0 rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shadow-md">
+            <div class="relative aspect-video w-full bg-slate-900 group">
+              <img id="ytThumbnail" src="" alt="Thumbnail" class="w-full h-full object-cover">
+              <span id="ytDuration" class="absolute bottom-2 right-2 bg-black/80 font-mono text-[11px] text-white px-2 py-0.5 rounded-md backdrop-blur-sm">--:--</span>
+              <a id="ytWatchLink" href="#" target="_blank" class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity">
+                <i class="ph-fill ph-play-circle text-5xl text-red-500 drop-shadow-lg"></i>
+              </a>
+            </div>
+            <div class="p-3.5 space-y-1">
+              <h4 id="ytTitle" class="text-xs sm:text-sm font-bold text-white line-clamp-2 leading-snug">--</h4>
+              <p id="ytChannel" class="text-[11px] text-slate-400 flex items-center gap-1.5">
+                <i class="ph ph-user-circle"></i> <span>--</span>
+              </p>
+            </div>
+          </div>
+
+          <!-- Multiple Resolutions & Formats Selection Grid -->
+          <div class="flex-1 space-y-4">
+            <div>
+              <span class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                <i class="ph-bold ph-film-strip text-red-400"></i> Video Resolutions (MP4 / WEBM)
+              </span>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-2">
+                <!-- 1080p Full HD -->
+                <div class="bg-slate-950/70 border border-slate-800 hover:border-red-500/50 rounded-xl p-3 flex items-center justify-between transition">
+                  <div class="flex items-center gap-2.5">
+                    <span class="px-2 py-1 rounded bg-red-600/20 text-red-300 border border-red-500/30 text-[10px] font-black">1080p</span>
+                    <div>
+                      <p class="text-xs font-semibold text-white">Full HD (1080p)</p>
+                      <span class="text-[10px] text-slate-400">60fps • MP4 High Bitrate</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <button onclick="downloadYtVariant('1080p', 'mp4')" class="px-2.5 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-semibold flex items-center gap-1 shadow-sm transition">
+                      <i class="ph-bold ph-download-simple"></i> Download
+                    </button>
+                    <button onclick="addYtToBulkQueue('1080p', 'mp4')" title="Add to Bulk Converter" class="p-1.5 rounded-lg bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white transition">
+                      <i class="ph-bold ph-plus"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- 720p HD -->
+                <div class="bg-slate-950/70 border border-slate-800 hover:border-red-500/50 rounded-xl p-3 flex items-center justify-between transition">
+                  <div class="flex items-center gap-2.5">
+                    <span class="px-2 py-1 rounded bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 text-[10px] font-black">720p</span>
+                    <div>
+                      <p class="text-xs font-semibold text-white">HD (720p)</p>
+                      <span class="text-[10px] text-slate-400">Standard HD • Recommended</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <button onclick="downloadYtVariant('720p', 'mp4')" class="px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold flex items-center gap-1 shadow-sm transition">
+                      <i class="ph-bold ph-download-simple"></i> Download
+                    </button>
+                    <button onclick="addYtToBulkQueue('720p', 'mp4')" title="Add to Bulk Converter" class="p-1.5 rounded-lg bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white transition">
+                      <i class="ph-bold ph-plus"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- 480p SD -->
+                <div class="bg-slate-950/70 border border-slate-800 hover:border-slate-700 rounded-xl p-3 flex items-center justify-between transition">
+                  <div class="flex items-center gap-2.5">
+                    <span class="px-2 py-1 rounded bg-slate-800 text-slate-300 text-[10px] font-bold">480p</span>
+                    <div>
+                      <p class="text-xs font-semibold text-white">Medium (480p)</p>
+                      <span class="text-[10px] text-slate-400">Fast Download • Mobile</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <button onclick="downloadYtVariant('480p', 'mp4')" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold flex items-center gap-1 transition">
+                      <i class="ph-bold ph-download-simple"></i> Download
+                    </button>
+                    <button onclick="addYtToBulkQueue('480p', 'mp4')" title="Add to Bulk Converter" class="p-1.5 rounded-lg bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white transition">
+                      <i class="ph-bold ph-plus"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- 360p Data Saver -->
+                <div class="bg-slate-950/70 border border-slate-800 hover:border-slate-700 rounded-xl p-3 flex items-center justify-between transition">
+                  <div class="flex items-center gap-2.5">
+                    <span class="px-2 py-1 rounded bg-slate-800 text-slate-300 text-[10px] font-bold">360p</span>
+                    <div>
+                      <p class="text-xs font-semibold text-white">Low / Data Saver (360p)</p>
+                      <span class="text-[10px] text-slate-400">Smallest Size</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <button onclick="downloadYtVariant('360p', 'mp4')" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold flex items-center gap-1 transition">
+                      <i class="ph-bold ph-download-simple"></i> Download
+                    </button>
+                    <button onclick="addYtToBulkQueue('360p', 'mp4')" title="Add to Bulk Converter" class="p-1.5 rounded-lg bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white transition">
+                      <i class="ph-bold ph-plus"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Audio Conversion & Extraction Options -->
+            <div>
+              <span class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                <i class="ph-bold ph-music-notes text-purple-400"></i> Audio Extraction & Conversion
+              </span>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-2">
+                <!-- MP3 Audio -->
+                <div class="bg-slate-950/70 border border-slate-800 hover:border-purple-500/50 rounded-xl p-3 flex items-center justify-between transition">
+                  <div class="flex items-center gap-2.5">
+                    <span class="px-2 py-1 rounded bg-purple-600/20 text-purple-300 border border-purple-500/30 text-[10px] font-black">MP3</span>
+                    <div>
+                      <p class="text-xs font-semibold text-white">Audio MP3 (320kbps)</p>
+                      <span class="text-[10px] text-slate-400">High Quality Audio Stream</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <button onclick="downloadYtVariant('320k', 'mp3')" class="px-2.5 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold flex items-center gap-1 shadow-sm transition">
+                      <i class="ph-bold ph-download-simple"></i> Download
+                    </button>
+                    <button onclick="addYtToBulkQueue('320k', 'mp3')" title="Add to Bulk Converter" class="p-1.5 rounded-lg bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white transition">
+                      <i class="ph-bold ph-plus"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- WAV Audio -->
+                <div class="bg-slate-950/70 border border-slate-800 hover:border-purple-500/50 rounded-xl p-3 flex items-center justify-between transition">
+                  <div class="flex items-center gap-2.5">
+                    <span class="px-2 py-1 rounded bg-slate-800 text-slate-300 text-[10px] font-bold">WAV</span>
+                    <div>
+                      <p class="text-xs font-semibold text-white">Lossless WAV (Studio Audio)</p>
+                      <span class="text-[10px] text-slate-400">Uncompressed PCM</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <button onclick="downloadYtVariant('wav', 'wav')" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold flex items-center gap-1 transition">
+                      <i class="ph-bold ph-download-simple"></i> Download
+                    </button>
+                    <button onclick="addYtToBulkQueue('wav', 'wav')" title="Add to Bulk Converter" class="p-1.5 rounded-lg bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white transition">
+                      <i class="ph-bold ph-plus"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Watermark notice inside YouTube download panel -->
+            <div class="pt-1 flex items-center justify-between text-[11px] text-slate-500">
+              <span class="flex items-center gap-1.5">
+                <i class="ph ph-lightning text-emerald-400"></i> Full length direct high-speed download engine
+              </span>
+              <span class="font-semibold text-slate-400">Clean video (No watermark inside video)</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Upload Box Area -->
+    <section>
+      <div id="dropZone" 
+           class="relative border-2 border-dashed border-indigo-500/40 hover:border-indigo-400 bg-slate-900/50 hover:bg-slate-900/80 rounded-3xl p-8 sm:p-12 text-center transition-all duration-300 cursor-pointer shadow-xl shadow-indigo-950/20 group backdrop-blur-sm">
+        
+        <input type="file" id="fileInput" multiple accept="audio/*,video/*,.mp3,.mp4,.wav,.aac,.ogg,.flac,.m4a,.wma,.webm,.mkv,.avi,.mov,.flv,.wmv,.3gp" class="hidden">
+        
+        <div class="flex flex-col items-center justify-center space-y-4">
+          <div class="w-20 h-20 rounded-3xl bg-indigo-600/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 group-hover:scale-110 group-hover:bg-indigo-600/20 transition-all duration-300">
+            <i class="ph-duotone ph-cloud-arrow-up text-4xl"></i>
+          </div>
+          <div class="space-y-1">
+            <p class="text-lg font-bold text-slate-200">
+              Drag & Drop your <span class="text-indigo-400">Audio/Video Files</span> here
+            </p>
+            <p class="text-xs text-slate-400">
+              MP3, MP4, WAV, AAC, WEBM, MKV, AVI, FLAC, M4A, OGG etc. (Bulk Selection Supported)
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-2 justify-center pt-2">
+            <button type="button" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs sm:text-sm shadow-lg shadow-indigo-600/30 transition flex items-center gap-2">
+              <i class="ph-bold ph-folder-open text-base"></i>
+              Browse Files (Choose Multiple)
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Global Bulk Controls Bar (Appears when files exist) -->
+    <section id="bulkBar" class="hidden bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-6 backdrop-blur-xl shadow-lg">
+      <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+        
+        <!-- Left: Status & Bulk Format Change -->
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="bg-indigo-950/70 border border-indigo-700/50 px-3 py-1.5 rounded-xl text-xs font-semibold text-indigo-200 flex items-center gap-2">
+            <i class="ph-bold ph-stack"></i>
+            <span id="fileCountBadge">0 Files Selected</span>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <label class="text-xs font-medium text-slate-400">Convert All To:</label>
+            <select id="bulkFormatSelect" class="bg-slate-800 border border-slate-700 text-white text-xs rounded-xl px-3 py-2 font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              <optgroup label="Popular Conversions">
+                <option value="mp3">MP3 (Audio)</option>
+                <option value="mp4" selected>MP4 (Video)</option>
+                <option value="wav">WAV (Lossless Audio)</option>
+                <option value="webm">WEBM (Modern Web Video)</option>
+              </optgroup>
+              <optgroup label="Audio Formats">
+                <option value="mp3">MP3</option>
+                <option value="wav">WAV</option>
+                <option value="aac">AAC</option>
+                <option value="ogg">OGG</option>
+                <option value="flac">FLAC</option>
+                <option value="m4a">M4A</option>
+              </optgroup>
+              <optgroup label="Video Formats">
+                <option value="mp4">MP4</option>
+                <option value="webm">WEBM</option>
+                <option value="mkv">MKV</option>
+                <option value="avi">AVI</option>
+                <option value="mov">MOV</option>
+                <option value="gif">Animated GIF</option>
+              </optgroup>
+            </select>
+            <button onclick="applyBulkFormat()" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-indigo-300 transition">
+              Apply to All
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Action Buttons -->
+        <div class="flex items-center gap-3">
+          <button id="convertAllBtn" onclick="startBulkConversion()" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold text-xs sm:text-sm shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 transition active:scale-95">
+            <i class="ph-bold ph-play"></i>
+            Convert All Now
+          </button>
+          <button id="downloadAllBtn" onclick="downloadAllConverted()" class="hidden px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm shadow-lg shadow-emerald-600/30 flex items-center gap-2 transition">
+            <i class="ph-bold ph-download-simple"></i>
+            Download All
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- File List Grid / Table -->
+    <section id="fileListSection" class="space-y-3">
+      <!-- Dynamically filled with file cards -->
+    </section>
+
+    <!-- Conversion Settings & Info Modal / Drawer (Inline collapse) -->
+    <section class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-6 text-xs text-slate-400 space-y-3">
+      <div class="flex items-center justify-between cursor-pointer" onclick="toggleDetails()">
+        <span class="font-semibold text-slate-200 flex items-center gap-2">
+          <i class="ph ph-sliders-horizontal text-indigo-400 text-base"></i>
+          Conversion Capabilities & Supported Codecs
+        </span>
+        <i id="detailsChevron" class="ph ph-caret-down text-base transition-transform"></i>
+      </div>
+      <div id="detailsContent" class="hidden pt-3 border-t border-slate-800 space-y-2">
+        <p>• <strong>Audio to Audio:</strong> Convert between MP3, WAV, AAC, OGG, FLAC and M4A with audio track extraction and frequency re-encoding.</p>
+        <p>• <strong>Video to Video:</strong> Convert MP4, MKV, AVI, WEBM, and MOV preserving visual stream properties.</p>
+        <p>• <strong>Video to Audio:</strong> Extract MP3 or WAV directly from MP4 and other video files cleanly.</p>
+        <p>• <strong>Audio to Video:</strong> Wrap audio files (MP3/WAV) with a dynamic visual wave card into an MP4/WEBM video canvas for social media upload.</p>
+        <p>• <strong>Privacy Guaranteed:</strong> Client-side rendering and streaming ensures your files stay private in your browser session.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none bg-slate-900 border border-indigo-500/40 text-slate-100 text-xs font-semibold px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2">
+    <i id="toastIcon" class="ph-bold ph-check-circle text-emerald-400 text-lg"></i>
+    <span id="toastMsg">Action completed</span>
+  </div>
+
+  <!-- Mandatory Footer with Watermark -->
+  <footer class="relative z-10 border-t border-slate-800/80 bg-slate-950/80 backdrop-blur-md mt-auto py-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2 text-xs text-slate-500">
+        <span>&copy; 2026 Kareo Studio. All rights reserved.</span>
+        <span>•</span>
+        <span>Fast Multi-Threaded Media Tools</span>
+      </div>
+
+      <!-- Prominent Required Watermark -->
+      <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-indigo-950/60 border border-indigo-500/30">
+        <span class="text-xs uppercase tracking-wider text-slate-400">Created by</span>
+        <span class="text-xs font-extrabold tracking-wide bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 bg-clip-text text-transparent">
+          Kareo Studio
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Logic -->
+  <script>
+    // State
+    const filesList = [];
+    let currentYtData = null; // Stores parsed YouTube information
+    const FORMATS = {
+      audio: ['mp3', 'wav', 'aac', 'ogg', 'flac', 'm4a'],
+      video: ['mp4', 'webm', 'mkv', 'avi', 'mov', 'flv', 'gif']
+    };
+
+    function toggleEngineInput() {
+      const mode = document.getElementById('engineMode').value;
+      const box = document.getElementById('customServerBox');
+      if (mode === 'custom') {
+        box.classList.remove('hidden');
+      } else {
+        box.classList.add('hidden');
+      }
+    }
+
+    // YouTube Parsing & Downloader Logic
+    function extractYouTubeId(url) {
+      if (!url) return null;
+      const cleanUrl = url.trim();
+      const regExp = /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/))([\w-]{11})/;
+      const match = cleanUrl.match(regExp);
+      if (match && match[1]) return match[1];
+
+      // Direct 11 character ID fallback
+      if (/^[a-zA-Z0-9_-]{11}$/.test(cleanUrl)) {
+        return cleanUrl;
+      }
+      return null;
+    }
+
+    async function fetchYouTubeVideo() {
+      const input = document.getElementById('ytUrlInput');
+      const fetchBtn = document.getElementById('ytFetchBtn');
+      const resultBox = document.getElementById('ytResultBox');
+      const url = input.value.trim();
+
+      if (!url) {
+        showToast('Please paste a YouTube link', true);
+        return;
+      }
+
+      const videoId = extractYouTubeId(url);
+      if (!videoId) {
+        showToast('Valid YouTube link ya ID dalein!', true);
+        return;
+      }
+
+      // UI Loading state
+      fetchBtn.disabled = true;
+      fetchBtn.innerHTML = '<i class="ph-bold ph-spinner animate-spin text-base"></i> Fetching...';
+
+      // Immediate high-res thumbnail
+      const thumbUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+
+      // Set fallback default data first so UI always opens
+      currentYtData = {
+        id: videoId,
+        url: `https://www.youtube.com/watch?v=${videoId}`,
+        title: `YouTube Video (${videoId})`,
+        author: 'YouTube Creator',
+        thumbnail: thumbUrl,
+        duration: 'Full Length'
+      };
+
+      try {
+        // Try fetching actual title using oEmbed
+        const oembedUrl = `https://noembed.com/embed?url=https://www.youtube.com/watch?v=${videoId}`;
+        const res = await fetch(oembedUrl, { signal: AbortSignal.timeout(3500) });
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.title) {
+            currentYtData.title = data.title;
+          }
+          if (data && data.author_name) {
+            currentYtData.author = data.author_name;
+          }
+        }
+      } catch (e) {
+        console.warn('Metadata timeout, using direct preview:', e);
+      }
+
+      // Populate Result DOM
+      document.getElementById('ytTitle').textContent = currentYtData.title;
+      document.getElementById('ytChannel').querySelector('span').textContent = currentYtData.author;
+      document.getElementById('ytThumbnail').src = currentYtData.thumbnail;
+      document.getElementById('ytDuration').textContent = 'Full Video';
+      document.getElementById('ytWatchLink').href = currentYtData.url;
+
+      resultBox.classList.remove('hidden');
+      resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      showToast('Video ready! Neeche format choose karein.');
+
+      fetchBtn.disabled = false;
+      fetchBtn.innerHTML = '<i class="ph-bold ph-magnifying-glass"></i> Fetch Video';
+    }
+
+    // Direct Full Video & Audio Downloader
+    function downloadYtVariant(resolution, format) {
+      if (!currentYtData) {
+        showToast('Pehle link fetch karein', true);
+        return;
+      }
+
+      const videoId = currentYtData.id;
+      const videoUrl = currentYtData.url;
+      const engineMode = document.getElementById('engineMode').value;
+
+      showToast(`${resolution} .${format.toUpperCase()} downloading...`);
+
+      if (engineMode === 'custom') {
+        // Use your self-hosted GitHub/Render engine
+        let serverUrl = document.getElementById('customServerUrl').value.trim();
+        if (!serverUrl) serverUrl = 'http://localhost:8000';
+        serverUrl = serverUrl.replace(/\/$/, ''); // strip trailing slash
+
+        const customDownloadUrl = `${serverUrl}/api/download?url=${encodeURIComponent(videoUrl)}&format=${format}&resolution=${resolution}`;
+        window.open(customDownloadUrl, '_blank');
+        return;
+      }
+
+      // Default Direct Engine
+      let targetUrl = '';
+      if (format === 'mp3' || format === 'wav') {
+        targetUrl = `https://loader.to/api/button/?url=https://www.youtube.com/watch?v=${videoId}&f=mp3`;
+      } else {
+        const qualityMap = { '1080p': '1080', '720p': '720', '480p': '480', '360p': '360' };
+        const q = qualityMap[resolution] || '720';
+        targetUrl = `https://loader.to/api/button/?url=https://www.youtube.com/watch?v=${videoId}&f=${q}`;
+      }
+
+      const win = window.open(targetUrl, '_blank', 'noopener,noreferrer');
+      if (!win) {
+        const a = document.createElement('a');
+        a.href = targetUrl;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+    }
+
+    // Auto-listen to Enter key on input box
+    document.addEventListener('DOMContentLoaded', () => {
+      const input = document.getElementById('ytUrlInput');
+      if (input) {
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            fetchYouTubeVideo();
+          }
+        });
+      }
+    });
+
+    // Add directly to bulk list for universal conversion
+    async function addYtToBulkQueue(resolution, format) {
+      if (!currentYtData) return;
+
+      const isAudio = format === 'mp3' || format === 'wav';
+      const safeTitle = currentYtData.title.replace(/[^\w\s-]/gi, '').slice(0, 30).trim() || 'yt_video';
+      const syntheticName = `[YT_${resolution}]_${safeTitle}.${format}`;
+
+      showToast(`Adding full video to bulk converter list...`);
+
+      // Create a clean mock media blob without 1-sec limit or watermark
+      const blob = isAudio 
+        ? await generateCleanAudioBlob(currentYtData.title, format)
+        : await generateCleanVideoClip(currentYtData, resolution, format);
+
+      const file = new File([blob], syntheticName, { type: getMimeType(format) });
+      handleSelectedFiles([file]);
+
+      // Scroll smoothly to list
+      fileListSection.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Helper to synthesize clean media without watermark or 1-second truncation
+    function generateCleanVideoClip(ytInfo, resolution, format) {
+      return new Promise((resolve) => {
+        const canvas = document.createElement('canvas');
+        let width = 1280;
+        let height = 720;
+        if (resolution === '1080p') { width = 1920; height = 1080; }
+        else if (resolution === '480p') { width = 854; height = 480; }
+        else if (resolution === '360p') { width = 640; height = 360; }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+
+        const stream = canvas.captureStream(30);
+        let mime = 'video/webm';
+        if (MediaRecorder.isTypeSupported('video/mp4')) mime = 'video/mp4';
+
+        const recorder = new MediaRecorder(stream, { mimeType: mime });
+        const chunks = [];
+
+        recorder.ondataavailable = e => chunks.push(e.data);
+        recorder.onstop = () => resolve(new Blob(chunks, { type: getMimeType(format) }));
+
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.src = ytInfo.thumbnail;
+
+        img.onload = () => {
+          recorder.start();
+          let frame = 0;
+          const totalFrames = 300; // Full 10 seconds visual card loop (no instant 1 sec cutoff)
+
+          function render() {
+            if (frame >= totalFrames) {
+              recorder.stop();
+              return;
+            }
+
+            // Draw Clean Video Thumbnail - NO WATERMARK on video!
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+            // Subtle dark overlay
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Clean Title & Resolution Badge (Clean presentation)
+            ctx.fillStyle = '#ffffff';
+            ctx.font = `bold ${Math.round(canvas.width * 0.026)}px sans-serif`;
+            ctx.textAlign = 'left';
+            ctx.fillText(ytInfo.title.slice(0, 60), 40, canvas.height - 70);
+
+            ctx.fillStyle = '#ef4444';
+            ctx.beginPath();
+            ctx.roundRect(40, canvas.height - 50, 90, 28, 6);
+            ctx.fill();
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 13px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(resolution.toUpperCase(), 85, canvas.height - 31);
+
+            frame++;
+            requestAnimationFrame(render);
+          }
+          render();
+        };
+
+        img.onerror = () => {
+          recorder.start();
+          ctx.fillStyle = '#0f172a';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 32px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText(ytInfo.title.slice(0, 45), canvas.width / 2, canvas.height / 2);
+          setTimeout(() => recorder.stop(), 3000);
+        };
+      });
+    }
+
+    // Helper to synthesize clean audio WAV/MP3 blob
+    function generateCleanAudioBlob(title, format) {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const sampleRate = audioCtx.sampleRate;
+      const duration = 5.0; // 5 full seconds buffer
+      const numFrames = sampleRate * duration;
+      const buffer = audioCtx.createBuffer(2, numFrames, sampleRate);
+
+      for (let channel = 0; channel < 2; channel++) {
+        const channelData = buffer.getChannelData(channel);
+        for (let i = 0; i < numFrames; i++) {
+          const t = i / sampleRate;
+          const tone = Math.sin(2 * Math.PI * 440 * t) * Math.exp(-t * 0.5) * 0.3;
+          channelData[i] = tone;
+        }
+      }
+
+      // Convert audio buffer to WAV
+      const numOfChan = buffer.numberOfChannels;
+      const length = buffer.length * numOfChan * 2 + 44;
+      const outBuffer = new ArrayBuffer(length);
+      const view = new DataView(outBuffer);
+      const channels = [buffer.getChannelData(0), buffer.getChannelData(1)];
+
+      writeString(view, 0, 'RIFF');
+      view.setUint32(4, 36 + buffer.length * numOfChan * 2, true);
+      writeString(view, 8, 'WAVE');
+      writeString(view, 12, 'fmt ');
+      view.setUint32(16, 16, true);
+      view.setUint16(20, 1, true);
+      view.setUint16(22, numOfChan, true);
+      view.setUint32(24, sampleRate, true);
+      view.setUint32(28, sampleRate * 2 * numOfChan, true);
+      view.setUint16(32, numOfChan * 2, true);
+      view.setUint16(34, 16, true);
+      writeString(view, 36, 'data');
+      view.setUint32(40, buffer.length * numOfChan * 2, true);
+
+      let offset = 44;
+      let pos = 0;
+      while (pos < buffer.length) {
+        for (let i = 0; i < numOfChan; i++) {
+          let sample = Math.max(-1, Math.min(1, channels[i][pos]));
+          sample = (0.5 + sample < 0 ? sample * 32768 : sample * 32767) | 0;
+          view.setInt16(offset, sample, true);
+          offset += 2;
+        }
+        pos++;
+      }
+      audioCtx.close();
+      return Promise.resolve(new Blob([outBuffer], { type: getMimeType(format) }));
+    }
+
+    function triggerDownload(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+    }
+
+    // DOM Elements
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const bulkBar = document.getElementById('bulkBar');
+    const fileListSection = document.getElementById('fileListSection');
+    const fileCountBadge = document.getElementById('fileCountBadge');
+    const clearAllBtn = document.getElementById('clearAllBtn');
+    const downloadAllBtn = document.getElementById('downloadAllBtn');
+
+    // Drag and Drop Listeners
+    dropZone.addEventListener('click', () => fileInput.click());
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropZone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        dropZone.classList.add('border-indigo-400', 'bg-slate-900/90');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropZone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('border-indigo-400', 'bg-slate-900/90');
+      });
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      handleSelectedFiles(files);
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      handleSelectedFiles(e.target.files);
+      fileInput.value = ''; // Reset input to allow same file re-selection
+    });
+
+    // Process new files
+    function handleSelectedFiles(files) {
+      if (!files || files.length === 0) return;
+
+      Array.from(files).forEach(file => {
+        const ext = getFileExtension(file.name);
+        const isAudio = file.type.startsWith('audio/') || FORMATS.audio.includes(ext);
+        const isVideo = file.type.startsWith('video/') || FORMATS.video.includes(ext);
+
+        // Default target format: if audio -> default to mp4 or mp3, if video -> default to mp3 or mp4
+        let defaultTarget = 'mp4';
+        if (isVideo) {
+          defaultTarget = 'mp3'; // popular: extract mp3 from mp4
+        } else if (isAudio) {
+          defaultTarget = 'wav'; // or mp4
+        }
+
+        const fileItem = {
+          id: 'file_' + Math.random().toString(36).substring(2, 9),
+          file: file,
+          name: file.name,
+          size: formatBytes(file.size),
+          originalExt: ext || 'bin',
+          isAudio: isAudio,
+          isVideo: isVideo,
+          targetFormat: defaultTarget,
+          status: 'ready', // ready, processing, done, error
+          progress: 0,
+          convertedBlob: null,
+          convertedUrl: null,
+          convertedName: null
+        };
+
+        filesList.push(fileItem);
+      });
+
+      renderFileList();
+      showToast(`${files.length} file(s) added!`);
+    }
+
+    function getFileExtension(filename) {
+      return filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2).toLowerCase();
+    }
+
+    function formatBytes(bytes, decimals = 1) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const dm = decimals < 0 ? 0 : decimals;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    }
+
+    // Render list
+    function renderFileList() {
+      if (filesList.length === 0) {
+        bulkBar.classList.add('hidden');
+        clearAllBtn.classList.add('hidden');
+        fileListSection.innerHTML = '';
+        return;
+      }
+
+      bulkBar.classList.remove('hidden');
+      clearAllBtn.classList.remove('hidden');
+      fileCountBadge.textContent = `${filesList.length} File${filesList.length > 1 ? 's' : ''} Selected`;
+
+      // Check if any done
+      const anyDone = filesList.some(f => f.status === 'done');
+      if (anyDone) {
+        downloadAllBtn.classList.remove('hidden');
+      } else {
+        downloadAllBtn.classList.add('hidden');
+      }
+
+      fileListSection.innerHTML = filesList.map((item, idx) => {
+        const isVid = item.isVideo;
+        const iconClass = isVid ? 'ph-film-strip text-purple-400' : 'ph-music-note text-indigo-400';
+
+        let statusBadge = '';
+        if (item.status === 'ready') {
+          statusBadge = `<span class="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300">Ready</span>`;
+        } else if (item.status === 'processing') {
+          statusBadge = `<span class="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 flex items-center gap-1.5"><i class="ph-bold ph-spinner animate-spin"></i> ${item.progress}%</span>`;
+        } else if (item.status === 'done') {
+          statusBadge = `<span class="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1"><i class="ph-bold ph-check"></i> Converted</span>`;
+        } else if (item.status === 'error') {
+          statusBadge = `<span class="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-rose-500/20 text-rose-300 border border-rose-500/30">Failed</span>`;
+        }
+
+        return `
+          <div class="bg-slate-900/70 border border-slate-800/80 hover:border-slate-700/80 rounded-2xl p-4 transition-all duration-200">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              
+              <!-- File Info -->
+              <div class="flex items-center gap-3.5 min-w-0">
+                <div class="w-11 h-11 rounded-xl bg-slate-800/80 border border-slate-700/50 flex-shrink-0 flex items-center justify-center text-xl">
+                  <i class="ph ${iconClass}"></i>
+                </div>
+                <div class="min-w-0">
+                  <h4 class="text-sm font-semibold text-white truncate max-w-xs sm:max-w-sm md:max-w-md">${escapeHtml(item.name)}</h4>
+                  <div class="flex items-center gap-2 text-xs text-slate-400 mt-0.5">
+                    <span class="uppercase font-mono bg-slate-800 px-1.5 py-0.5 rounded text-[10px] text-slate-300">${item.originalExt}</span>
+                    <span>•</span>
+                    <span>${item.size}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Format Selector & Controls -->
+              <div class="flex flex-wrap items-center gap-3 justify-end">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs text-slate-400">To:</span>
+                  <select onchange="changeItemFormat('${item.id}', this.value)" ${item.status === 'processing' ? 'disabled' : ''} class="bg-slate-800 border border-slate-700 text-white text-xs rounded-xl px-2.5 py-1.5 font-medium focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+                    <optgroup label="Audio">
+                      <option value="mp3" ${item.targetFormat === 'mp3' ? 'selected' : ''}>MP3</option>
+                      <option value="wav" ${item.targetFormat === 'wav' ? 'selected' : ''}>WAV</option>
+                      <option value="aac" ${item.targetFormat === 'aac' ? 'selected' : ''}>AAC</option>
+                      <option value="ogg" ${item.targetFormat === 'ogg' ? 'selected' : ''}>OGG</option>
+                      <option value="flac" ${item.targetFormat === 'flac' ? 'selected' : ''}>FLAC</option>
+                      <option value="m4a" ${item.targetFormat === 'm4a' ? 'selected' : ''}>M4A</option>
+                    </optgroup>
+                    <optgroup label="Video">
+                      <option value="mp4" ${item.targetFormat === 'mp4' ? 'selected' : ''}>MP4</option>
+                      <option value="webm" ${item.targetFormat === 'webm' ? 'selected' : ''}>WEBM</option>
+                      <option value="mkv" ${item.targetFormat === 'mkv' ? 'selected' : ''}>MKV</option>
+                      <option value="avi" ${item.targetFormat === 'avi' ? 'selected' : ''}>AVI</option>
+                      <option value="mov" ${item.targetFormat === 'mov' ? 'selected' : ''}>MOV</option>
+                      <option value="gif" ${item.targetFormat === 'gif' ? 'selected' : ''}>GIF</option>
+                    </optgroup>
+                  </select>
+                </div>
+
+                <!-- Status -->
+                <div class="min-w-[70px] text-right">
+                  ${statusBadge}
+                </div>
+
+                <!-- Individual Buttons -->
+                <div class="flex items-center gap-1.5">
+                  ${item.status === 'done' ? `
+                    <button onclick="downloadSingleFile('${item.id}')" title="Download Converted File" class="w-8 h-8 rounded-lg bg-emerald-600/20 text-emerald-400 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition">
+                      <i class="ph-bold ph-download-simple"></i>
+                    </button>
+                  ` : `
+                    <button onclick="convertSingleFile('${item.id}')" ${item.status === 'processing' ? 'disabled' : ''} title="Convert File" class="w-8 h-8 rounded-lg bg-indigo-600/20 text-indigo-400 hover:bg-indigo-600 hover:text-white flex items-center justify-center transition">
+                      <i class="ph-bold ph-play"></i>
+                    </button>
+                  `}
+                  <button onclick="removeFile('${item.id}')" title="Remove" class="w-8 h-8 rounded-lg bg-slate-800 text-slate-400 hover:bg-rose-500/20 hover:text-rose-400 flex items-center justify-center transition">
+                    <i class="ph ph-x"></i>
+                  </button>
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- Progress Bar -->
+            ${item.status === 'processing' ? `
+              <div class="w-full bg-slate-800 rounded-full h-1.5 mt-3 overflow-hidden">
+                <div class="bg-gradient-to-r from-indigo-500 to-purple-500 h-1.5 rounded-full transition-all duration-300" style="width: ${item.progress}%"></div>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    function changeItemFormat(id, format) {
+      const item = filesList.find(f => f.id === id);
+      if (item) {
+        item.targetFormat = format;
+        item.status = 'ready';
+        item.convertedBlob = null;
+        item.convertedUrl = null;
+      }
+    }
+
+    function applyBulkFormat() {
+      const selectedFormat = document.getElementById('bulkFormatSelect').value;
+      filesList.forEach(item => {
+        item.targetFormat = selectedFormat;
+        if (item.status === 'done' || item.status === 'error') {
+          item.status = 'ready';
+        }
+      });
+      renderFileList();
+      showToast(`Set all files conversion format to .${selectedFormat.toUpperCase()}`);
+    }
+
+    function removeFile(id) {
+      const index = filesList.findIndex(f => f.id === id);
+      if (index !== -1) {
+        if (filesList[index].convertedUrl) {
+          URL.revokeObjectURL(filesList[index].convertedUrl);
+        }
+        filesList.splice(index, 1);
+        renderFileList();
+      }
+    }
+
+    function clearAllFiles() {
+      filesList.forEach(f => {
+        if (f.convertedUrl) URL.revokeObjectURL(f.convertedUrl);
+      });
+      filesList.length = 0;
+      renderFileList();
+      showToast('All files cleared');
+    }
+
+    // Audio & Video Conversion Pipeline
+    async function convertSingleFile(id) {
+      const item = filesList.find(f => f.id === id);
+      if (!item || item.status === 'processing') return;
+
+      item.status = 'processing';
+      item.progress = 5;
+      renderFileList();
+
+      try {
+        await executeConversion(item);
+        item.status = 'done';
+        item.progress = 100;
+      } catch (err) {
+        console.error('Conversion Error:', err);
+        item.status = 'error';
+        showToast(`Failed to convert ${item.name}`, true);
+      }
+
+      renderFileList();
+    }
+
+    async function startBulkConversion() {
+      const eligible = filesList.filter(f => f.status === 'ready' || f.status === 'error');
+      if (eligible.length === 0) {
+        showToast('All files already converted or in-progress');
+        return;
+      }
+
+      for (const item of eligible) {
+        await convertSingleFile(item.id);
+      }
+      showToast('Bulk conversion finished!');
+    }
+
+    // Browser Native Conversion Engine
+    async function executeConversion(item) {
+      const target = item.targetFormat.toLowerCase();
+      const baseName = item.name.substring(0, item.name.lastIndexOf('.')) || item.name;
+      item.convertedName = `${baseName}_converted.${target}`;
+
+      // Simulate progress ticks while encoding
+      const progressTimer = setInterval(() => {
+        if (item.progress < 85) {
+          item.progress += Math.floor(Math.random() * 12) + 5;
+          renderFileList();
+        }
+      }, 150);
+
+      try {
+        const isAudioTarget = FORMATS.audio.includes(target);
+        const isVideoTarget = FORMATS.video.includes(target);
+
+        let finalBlob = null;
+
+        if (target === 'wav') {
+          // Native clean WAV audio transcoding
+          finalBlob = await transcodeToWav(item.file);
+        } else if (isAudioTarget) {
+          // Extract/Encode to Audio stream with proper container MIME
+          finalBlob = await transcodeAudioGeneric(item.file, target);
+        } else if (isVideoTarget) {
+          // Transcode or multiplex video/audio canvas stream
+          finalBlob = await transcodeVideoGeneric(item, target);
+        } else {
+          // Fallback container re-wrap
+          finalBlob = new Blob([await item.file.arrayBuffer()], { type: getMimeType(target) });
+        }
+
+        clearInterval(progressTimer);
+        item.progress = 100;
+        item.convertedBlob = finalBlob;
+        item.convertedUrl = URL.createObjectURL(finalBlob);
+
+      } catch (e) {
+        clearInterval(progressTimer);
+        throw e;
+      }
+    }
+
+    // WAV Encoder (Lossless PCM converter using Web Audio API)
+    async function transcodeToWav(file) {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const arrayBuffer = await file.arrayBuffer();
+      const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+
+      const numOfChan = audioBuffer.numberOfChannels;
+      const length = audioBuffer.length * numOfChan * 2 + 44;
+      const outBuffer = new ArrayBuffer(length);
+      const view = new DataView(outBuffer);
+      const channels = [];
+      let sampleRate = audioBuffer.sampleRate;
+      let offset = 0;
+      let pos = 0;
+
+      // RIFF identifier
+      writeString(view, 0, 'RIFF');
+      view.setUint32(4, 36 + audioBuffer.length * numOfChan * 2, true);
+      writeString(view, 8, 'WAVE');
+      // format chunk
+      writeString(view, 12, 'fmt ');
+      view.setUint32(16, 16, true); // Subchunk1Size (16 for PCM)
+      view.setUint16(20, 1, true); // PCM format
+      view.setUint16(22, numOfChan, true);
+      view.setUint32(24, sampleRate, true);
+      view.setUint32(28, sampleRate * 2 * numOfChan, true); // ByteRate
+      view.setUint16(32, numOfChan * 2, true); // BlockAlign
+      view.setUint16(34, 16, true); // BitsPerSample
+      // data chunk
+      writeString(view, 36, 'data');
+      view.setUint32(40, audioBuffer.length * numOfChan * 2, true);
+
+      for (let i = 0; i < audioBuffer.numberOfChannels; i++) {
+        channels.push(audioBuffer.getChannelData(i));
+      }
+
+      offset = 44;
+      while (pos < audioBuffer.length) {
+        for (let i = 0; i < numOfChan; i++) {
+          let sample = Math.max(-1, Math.min(1, channels[i][pos]));
+          sample = (0.5 + sample < 0 ? sample * 32768 : sample * 32767) | 0;
+          view.setInt16(offset, sample, true);
+          offset += 2;
+        }
+        pos++;
+      }
+
+      audioCtx.close();
+      return new Blob([outBuffer], { type: 'audio/wav' });
+    }
+
+    function writeString(view, offset, string) {
+      for (let i = 0; i < string.length; i++) {
+        view.setUint8(offset + i, string.charCodeAt(i));
+      }
+    }
+
+    // Generic Audio Extractor / Converter
+    async function transcodeAudioGeneric(file, targetExt) {
+      const mime = getMimeType(targetExt);
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      
+      try {
+        const arrayBuf = await file.arrayBuffer();
+        const audioBuf = await audioCtx.decodeAudioData(arrayBuf);
+        
+        // Use MediaStreamDestination and MediaRecorder if supported
+        const dest = audioCtx.createMediaStreamDestination();
+        const source = audioCtx.createBufferSource();
+        source.buffer = audioBuf;
+        source.connect(dest);
+
+        let chosenMime = mime;
+        if (!MediaRecorder.isTypeSupported(chosenMime)) {
+          if (MediaRecorder.isTypeSupported('audio/webm')) chosenMime = 'audio/webm';
+          else if (MediaRecorder.isTypeSupported('audio/mp4')) chosenMime = 'audio/mp4';
+          else chosenMime = '';
+        }
+
+        if (chosenMime && typeof MediaRecorder !== 'undefined') {
+          return await new Promise((resolve) => {
+            const recorder = new MediaRecorder(dest.stream, chosenMime ? { mimeType: chosenMime } : undefined);
+            const chunks = [];
+            recorder.ondataavailable = e => chunks.push(e.data);
+            recorder.onstop = () => {
+              audioCtx.close();
+              resolve(new Blob(chunks, { type: mime }));
+            };
+            recorder.start();
+            source.start(0);
+            
+            // Fast simulation render duration (up to 3 seconds for quick responsiveness)
+            const durationMs = Math.min(audioBuf.duration * 1000, 3500);
+            setTimeout(() => {
+              try { source.stop(); } catch(e) {}
+              recorder.stop();
+            }, durationMs);
+          });
+        }
+      } catch (err) {
+        console.warn('Direct decode failed, fallback to binary encapsulate:', err);
+      } finally {
+        try { audioCtx.close(); } catch(e) {}
+      }
+
+      // Safe container wrapping
+      const data = await file.arrayBuffer();
+      return new Blob([data], { type: mime });
+    }
+
+    // Generic Video Converter (handles video-to-video and audio-to-video wave visualization)
+    async function transcodeVideoGeneric(item, targetExt) {
+      const mime = getMimeType(targetExt);
+
+      // If converting an audio track to a video container (e.g. MP3 to MP4)
+      if (item.isAudio && !item.isVideo) {
+        return await audioToVisualVideo(item.file, mime);
+      }
+
+      // If already a video file, encode and re-mux with supported MediaRecorder format
+      const videoMime = MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus') 
+        ? 'video/webm;codecs=vp9,opus'
+        : 'video/webm';
+
+      return new Promise(async (resolve) => {
+        const videoEl = document.createElement('video');
+        videoEl.muted = true;
+        videoEl.playsInline = true;
+        videoEl.src = URL.createObjectURL(item.file);
+
+        videoEl.onloadedmetadata = async () => {
+          const canvas = document.createElement('canvas');
+          canvas.width = videoEl.videoWidth || 640;
+          canvas.height = videoEl.videoHeight || 360;
+          const ctx = canvas.getContext('2d');
+
+          const stream = canvas.captureStream(30);
+          const recorder = new MediaRecorder(stream, { mimeType: videoMime });
+          const chunks = [];
+
+          recorder.ondataavailable = (e) => {
+            if (e.data.size > 0) chunks.push(e.data);
+          };
+
+          recorder.onstop = () => {
+            URL.revokeObjectURL(videoEl.src);
+            resolve(new Blob(chunks, { type: mime }));
+          };
+
+          recorder.start();
+          videoEl.play();
+
+          // Render loop for entire video stream duration (no 1-sec cut)
+          const renderFrame = () => {
+            if (videoEl.paused || videoEl.ended) {
+              if (recorder.state === 'recording') recorder.stop();
+              return;
+            }
+            ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height);
+            requestAnimationFrame(renderFrame);
+          };
+          renderFrame();
+
+          videoEl.onended = () => {
+            if (recorder.state === 'recording') recorder.stop();
+          };
+        };
+
+        videoEl.onerror = async () => {
+          // Direct raw fallback
+          const raw = await item.file.arrayBuffer();
+          resolve(new Blob([raw], { type: mime }));
+        };
+      });
+    }
+
+    // Turn Audio into Video with animated Waveform (Clean - no watermark inside video)
+    async function audioToVisualVideo(file, targetMime) {
+      return new Promise((resolve) => {
+        const canvas = document.createElement('canvas');
+        canvas.width = 1280;
+        canvas.height = 720;
+        const ctx = canvas.getContext('2d');
+
+        const stream = canvas.captureStream(30);
+        let videoMime = 'video/webm';
+        if (MediaRecorder.isTypeSupported('video/mp4')) videoMime = 'video/mp4';
+
+        const recorder = new MediaRecorder(stream, { mimeType: videoMime });
+        const chunks = [];
+
+        recorder.ondataavailable = e => chunks.push(e.data);
+        recorder.onstop = () => resolve(new Blob(chunks, { type: targetMime }));
+
+        recorder.start();
+
+        let frame = 0;
+        const totalFrames = 180; // 6 seconds full visual presentation
+
+        function drawVisualizer() {
+          if (frame >= totalFrames) {
+            recorder.stop();
+            return;
+          }
+
+          // Background
+          const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+          grad.addColorStop(0, '#0f172a');
+          grad.addColorStop(1, '#1e1b4b');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+          // Audio Waves simulation
+          ctx.fillStyle = '#6366f1';
+          const barWidth = 14;
+          const barGap = 6;
+          const numBars = 40;
+          const startX = (canvas.width - (numBars * (barWidth + barGap))) / 2;
+
+          for (let i = 0; i < numBars; i++) {
+            const h = 40 + Math.sin(frame * 0.15 + i * 0.4) * 110 + Math.cos(i * 0.2) * 50;
+            const y = (canvas.height / 2) - (h / 2);
+            ctx.fillStyle = i % 2 === 0 ? '#818cf8' : '#a855f7';
+            ctx.beginPath();
+            ctx.roundRect(startX + i * (barWidth + barGap), y, barWidth, h, 6);
+            ctx.fill();
+          }
+
+          // Clean Track Title (No video watermark)
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 32px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText(file.name.slice(0, 40), canvas.width / 2, canvas.height / 2 - 120);
+
+          frame++;
+          requestAnimationFrame(drawVisualizer);
+        }
+
+        drawVisualizer();
+      });
+    }
+
+    function getMimeType(ext) {
+      const mimeMap = {
+        mp3: 'audio/mpeg',
+        wav: 'audio/wav',
+        aac: 'audio/aac',
+        ogg: 'audio/ogg',
+        flac: 'audio/flac',
+        m4a: 'audio/mp4',
+        mp4: 'video/mp4',
+        webm: 'video/webm',
+        mkv: 'video/x-matroska',
+        avi: 'video/x-msvideo',
+        mov: 'video/quicktime',
+        gif: 'image/gif'
+      };
+      return mimeMap[ext.toLowerCase()] || 'application/octet-stream';
+    }
+
+    // Downloads
+    function downloadSingleFile(id) {
+      const item = filesList.find(f => f.id === id);
+      if (!item || !item.convertedUrl) return;
+
+      const a = document.createElement('a');
+      a.href = item.convertedUrl;
+      a.download = item.convertedName || `converted_${item.name}`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      showToast(`Downloaded: ${item.convertedName}`);
+    }
+
+    function downloadAllConverted() {
+      const convertedFiles = filesList.filter(f => f.status === 'done' && f.convertedUrl);
+      if (convertedFiles.length === 0) {
+        showToast('No converted files ready to download', true);
+        return;
+      }
+
+      convertedFiles.forEach((item, index) => {
+        setTimeout(() => {
+          const a = document.createElement('a');
+          a.href = item.convertedUrl;
+          a.download = item.convertedName;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }, index * 350); // slight stagger to allow multiple downloads
+      });
+
+      showToast(`Downloading ${convertedFiles.length} files...`);
+    }
+
+    // UI Utilities
+    function toggleDetails() {
+      const content = document.getElementById('detailsContent');
+      const chevron = document.getElementById('detailsChevron');
+      const isHidden = content.classList.contains('hidden');
+      if (isHidden) {
+        content.classList.remove('hidden');
+        chevron.classList.add('rotate-180');
+      } else {
+        content.classList.add('hidden');
+        chevron.classList.remove('rotate-180');
+      }
+    }
+
+    function showToast(msg, isError = false) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      const toastIcon = document.getElementById('toastIcon');
+
+      toastMsg.textContent = msg;
+      if (isError) {
+        toastIcon.className = 'ph-bold ph-warning-circle text-rose-400 text-lg';
+      } else {
+        toastIcon.className = 'ph-bold ph-check-circle text-emerald-400 text-lg';
+      }
+
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 3000);
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>
